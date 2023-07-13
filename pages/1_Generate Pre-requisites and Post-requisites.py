@@ -240,7 +240,7 @@ def main():
     st.title("Upload OP Titles")
 
     # File upload
-    file = st.file_uploader("Upload a CSV file", type=["csv"])
+    file = st.file_uploader("Upload OP's", type=["csv"])
 
     if file is not None:
         # Read CSV file
