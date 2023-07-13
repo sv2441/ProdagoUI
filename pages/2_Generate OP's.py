@@ -81,17 +81,15 @@ def result(df):
 
     prompt = ChatPromptTemplate.from_template(template=title_template)
 
-    
-    
-    df2 = df
+    df=df
     for index, row in df.iterrows():
-        messages = prompt.format_messages(topic=row, format_instructions=format_instructions)
+        messages = prompt.format_messages(topic=row['Requirements'], format_instructions=format_instructions)
         response = chat_llm(messages)
         response_as_dict = output_parser.parse(response.content)
         data = response_as_dict
         convert_dict_to_csv(data)
-    data21 = pd.read_csv('data21.csv')
-    results = pd.concat([df, data21], axis=1).fillna(0)
+    data21 = pd.read_csv("data21.csv",encoding='cp1252')
+    results = pd.concat([df, data21], axis=1)
     results.to_csv('final21.csv')
     data21.to_csv('data21.csv')
     
