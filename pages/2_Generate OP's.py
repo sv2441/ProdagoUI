@@ -247,7 +247,7 @@ def main():
     if file is not None:
         # Read CSV file
         # df = pd.read_csv(file)
-        df = pd.read_csv(file, usecols=['Intended Results', 'OP Key', 'OP Description', 'OP Title'])
+        df = pd.read_csv(file)
 
         # Display preview
         st.subheader("CSV File Preview")
