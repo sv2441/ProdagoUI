@@ -1,4 +1,3 @@
-## import the CSV file and output the CSV file 
 
 import streamlit as st
 import pandas as pd
@@ -17,11 +16,11 @@ import base64
 
 load_dotenv()
 
-os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+# os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 
-# os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
+os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
     
-chat_llm = ChatOpenAI(temperature=0.0)
+chat_llm = ChatOpenAI(temperature=0.0 ,request_timeout=120)
 
 
 def dict_to_csv(data, filename, append=False):
@@ -39,7 +38,7 @@ def get_download_link(df):
     return href
 
 def convert_dict_to_csv(data_dict):
-    with open('data11.csv', 'a', newline='') as csvfile:
+    with open('data11.csv', 'w', newline='') as csvfile:
         fieldnames = ['Pre/Post', 'Activity']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
@@ -82,17 +81,36 @@ def result(df):
     
     
     df2 = df['OP Title']
+    # for i in range(len(df2)):
+    #     messages = prompt.format_messages(topic=df2[i], format_instructions=format_instructions)
+    #     response = chat_llm(messages)
+    #     response_as_dict = output_parser.parse(response.content)
+    #     data = response_as_dict
+    #     convert_dict_to_csv(data)
+    # data11 = pd.read_csv('data11.csv')
+    # results = pd.concat([df, data11], axis=1).fillna(0)
+    # results.to_csv('final11.csv')
+    # data11.to_csv('data11.csv')
+    
     for i in range(len(df2)):
         messages = prompt.format_messages(topic=df2[i], format_instructions=format_instructions)
         response = chat_llm(messages)
         response_as_dict = output_parser.parse(response.content)
         data = response_as_dict
         convert_dict_to_csv(data)
+        data11 = pd.read_csv('data11.csv')
+        test=pd.DataFrame(df.iloc[i]).T
+        results = pd.concat([test, data11], axis=1).fillna(0)
+        # result.to_csv('final1.csv')
+        csv_file_path = 'results.csv'
+        if not pd.Series(csv_file_path).isin(os.listdir()).any():
+            # If the file doesn't exist, save the result_df to the CSV file
+            results.to_csv(csv_file_path, index=False)
+        else:
+            # If the file exists, append the result_df to the CSV file
+            results.to_csv(csv_file_path, mode='a', header=False, index=False)
+
     data11 = pd.read_csv('data11.csv')
-    results = pd.concat([df, data11], axis=1).fillna(0)
-    results.to_csv('final11.csv')
-    data11.to_csv('data11.csv')
-    
     # final = pd.read_csv('final.csv')
     st.subheader("Final Result")
     st.dataframe(data11)
@@ -126,10 +144,12 @@ def results2(df):
     output= pd.concat([df2, data12], axis=1)
     result.to_csv('final12.csv')
     data12.to_csv('data12.csv')
-    
+    final_result=pd.read_csv('results.csv')
+    results = pd.concat([final_result, data12], axis=1)
+    results.to_csv('results.csv')
     st.subheader("Summary Result")
     st.dataframe(output)
-    st.markdown(get_download_link(data12), unsafe_allow_html=True)
+    st.markdown(get_download_link(results), unsafe_allow_html=True)
     
 
 def results4(df):
@@ -159,10 +179,12 @@ def results4(df):
     output= pd.concat([df2, data14], axis=1)
     result.to_csv('final14.csv')
     data14.to_csv('data14.csv')
-    
+    final_result=pd.read_csv('results.csv')
+    results = pd.concat([final_result, data14], axis=1)
+    results.to_csv('results.csv')
     st.subheader("Artefact Result")
     st.dataframe(output)
-    st.markdown(get_download_link(data14), unsafe_allow_html=True)
+    st.markdown(get_download_link(results), unsafe_allow_html=True)
     
     
 def results5(df):
@@ -193,10 +215,13 @@ def results5(df):
     output= pd.concat([df2, data15], axis=1)
     result.to_csv('final15.csv')
     data15.to_csv('data15.csv')
-    
+    final_result=pd.read_csv('results.csv')
+    results = pd.concat([final_result, data15], axis=1)
+    results.to_csv('results.csv')
     st.subheader("Artefact Description")
     st.dataframe(output)
-    st.markdown(get_download_link(data15), unsafe_allow_html=True)
+    final_result=pd.read_csv('results.csv')
+    st.markdown(get_download_link(results), unsafe_allow_html=True)
     
     
 def results3(df):
@@ -227,10 +252,12 @@ def results3(df):
     output= pd.concat([df2, data13], axis=1)
     result.to_csv('final13.csv')
     data13.to_csv('data13.csv')
-    
+    final_result=pd.read_csv('results.csv')
+    results = pd.concat([final_result, data13], axis=1)
+    results.to_csv('results.csv')
     st.subheader("Intended Result")
     st.dataframe(output)
-    st.markdown(get_download_link(data13), unsafe_allow_html=True)
+    st.markdown(get_download_link(results), unsafe_allow_html=True)
     
     
 
