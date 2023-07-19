@@ -102,13 +102,9 @@ def result(df):
         test=pd.DataFrame(df.iloc[i]).T
         results = pd.concat([test, data11], axis=1).fillna(0)
         # result.to_csv('final1.csv')
-        csv_file_path = 'results.csv'
-        if not pd.Series(csv_file_path).isin(os.listdir()).any():
-            # If the file doesn't exist, save the result_df to the CSV file
-            results.to_csv(csv_file_path, index=False)
-        else:
-            # If the file exists, append the result_df to the CSV file
-            results.to_csv(csv_file_path, mode='a', header=False, index=False)
+        test=pd.DataFrame(df.iloc[0]).T
+        results = pd.concat([test, data11], axis=1).fillna(0)
+        results.to_csv('results.csv', mode='a', header=not os.path.isfile('results.csv'), index=False)
 
     data11 = pd.read_csv('data11.csv')
     # final = pd.read_csv('final.csv')
