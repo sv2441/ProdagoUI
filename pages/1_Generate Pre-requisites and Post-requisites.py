@@ -217,7 +217,7 @@ def results5(df):
     st.subheader("Artefact Description")
     st.dataframe(output)
     final_result=pd.read_csv('results.csv')
-    st.markdown(get_download_link(results), unsafe_allow_html=True)
+    st.markdown(get_download_link(final_result), unsafe_allow_html=True)
     
     
 def results3(df):
@@ -279,16 +279,16 @@ def main():
             result(df)
             
         if st.button("Generate Description"):
-            results2(pd.read_csv('data11.csv'))
+            results2(pd.read_csv('results.csv'))
             
         if st.button("Generate Intended Results"):
-            results3(pd.read_csv('data12.csv'))
+            results3(pd.read_csv('results.csv'))
             
         if st.button("Generate Artefact"):
-            results4(pd.read_csv('data12.csv'))
+            results4(pd.read_csv('results.csv'))
             
         if st.button("Generate Artefact Description"):
-            results5(pd.read_csv('data14.csv'))
+            results5(pd.read_csv('results.csv'))
             
         
 
