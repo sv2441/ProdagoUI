@@ -216,7 +216,8 @@ def results5(df):
     results.to_csv('results.csv')
     st.subheader("Artefact Description")
     st.dataframe(output)
-    final_result=pd.read_csv('results.csv')
+    final_result=pd.read_csv('results.csv',usecols=['OP Key','OP Title','Intended Results', 'OP Description','Pre/Post','Activity',	'Description',	'Intended Results','Artefact Name',	'Artefact Description'])
+    
     st.markdown(get_download_link(final_result), unsafe_allow_html=True)
     
     
