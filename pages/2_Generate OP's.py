@@ -39,7 +39,7 @@ def get_download_link(df):
     return href
 
 def convert_dict_to_csv(data_dict):
-    with open('data21.csv', 'a', newline='') as csvfile:
+    with open('data11.csv', 'w', newline='') as csvfile:
         fieldnames = ['OP type', 'Activity']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
@@ -88,15 +88,20 @@ def result(df):
         response_as_dict = output_parser.parse(response.content)
         data = response_as_dict
         convert_dict_to_csv(data)
-    data21 = pd.read_csv("data21.csv",encoding='cp1252')
-    results = pd.concat([df, data21], axis=1)
-    results.to_csv('final21.csv')
-    data21.to_csv('data21.csv')
-    
+        
+        test=pd.DataFrame(df.iloc[index]).T
+        data11 = pd.read_csv(r'data11.csv',encoding='cp1252')
+        results = pd.concat([test, data11], axis=1).fillna(0)
+        # result.to_csv('final1.csv')
+        test=pd.DataFrame(df.iloc[0]).T
+        results = pd.concat([test, data11], axis=1).fillna(0)
+        results.to_csv('results.csv', mode='a', header=not os.path.isfile('results.csv'), index=False)
+
+    data11 = pd.read_csv('data11.csv')
     # final = pd.read_csv('final.csv')
     st.subheader("Final Result")
-    st.dataframe(data21)
-    st.markdown(get_download_link(data21), unsafe_allow_html=True)
+    st.dataframe(data11)
+    st.markdown(get_download_link(data11), unsafe_allow_html=True)
 
 
 def results2(df):
@@ -120,16 +125,18 @@ def results2(df):
         response = chat_llm(messages)
         response_as_dict = output_parser.parse(response.content)
         data = response_as_dict
-        dict_to_csv(data, 'data22.csv', append=True)
-    data22 = pd.read_csv('data22.csv', names=['Description'])
-    result = pd.concat([df, data22], axis=1)
-    output= pd.concat([df2, data22], axis=1)
-    result.to_csv('final22.csv')
-    data22.to_csv('data22.csv')
-    
+        dict_to_csv(data, 'data12.csv', append=True)
+    data12 = pd.read_csv('data12.csv', names=['Description'])
+    result = pd.concat([df, data12], axis=1)
+    output= pd.concat([df2, data12], axis=1)
+    result.to_csv('final12.csv')
+    data12.to_csv('data12.csv')
+    final_result=pd.read_csv('results.csv')
+    results = pd.concat([final_result, data12], axis=1)
+    results.to_csv('results.csv')
     st.subheader("Summary Result")
     st.dataframe(output)
-    st.markdown(get_download_link(data22), unsafe_allow_html=True)
+    st.markdown(get_download_link(results), unsafe_allow_html=True)
     
 
 def results4(df):
@@ -153,16 +160,18 @@ def results4(df):
         response = chat_llm(messages)
         response_as_dict = output_parser.parse(response.content)
         data = response_as_dict
-        dict_to_csv(data, 'data24.csv', append=True)
-    data24 = pd.read_csv('data24.csv', names=['Artefact Name'])
-    result = pd.concat([df, data24], axis=1)
-    output= pd.concat([df2, data24], axis=1)
-    result.to_csv('final24.csv')
-    data24.to_csv('data24.csv')
-    
+        dict_to_csv(data, 'data14.csv', append=True)
+    data14 = pd.read_csv('data14.csv', names=['Artefact Name'])
+    result = pd.concat([df, data14], axis=1)
+    output= pd.concat([df2, data14], axis=1)
+    result.to_csv('final14.csv')
+    data14.to_csv('data14.csv')
+    final_result=pd.read_csv('results.csv')
+    results = pd.concat([final_result, data14], axis=1)
+    results.to_csv('results.csv')
     st.subheader("Artefact Result")
     st.dataframe(output)
-    st.markdown(get_download_link(data24), unsafe_allow_html=True)
+    st.markdown(get_download_link(results), unsafe_allow_html=True)
     
     
 def results5(df):
@@ -187,16 +196,20 @@ def results5(df):
         response = chat_llm(messages)
         response_as_dict = output_parser.parse(response.content)
         data = response_as_dict
-        dict_to_csv(data, 'data25.csv', append=True)
-    data25 = pd.read_csv('data25.csv', names=['Artefact Description'])
-    result = pd.concat([df, data25], axis=1)
-    output= pd.concat([df2, data25], axis=1)
-    result.to_csv('final25.csv')
-    data25.to_csv('data25.csv')
-    
+        dict_to_csv(data, 'data15.csv', append=True)
+    data15 = pd.read_csv('data15.csv', names=['Artefact Description'])
+    result = pd.concat([df, data15], axis=1)
+    output= pd.concat([df2, data15], axis=1)
+    result.to_csv('final15.csv')
+    data15.to_csv('data15.csv')
+    final_result=pd.read_csv('results.csv')
+    results = pd.concat([final_result, data15], axis=1)
+    results.to_csv('results.csv')
     st.subheader("Artefact Description")
     st.dataframe(output)
-    st.markdown(get_download_link(data25), unsafe_allow_html=True)
+    final_result=pd.read_csv('results.csv',usecols=['Requirements','OP Type','Activity','Description',	'Intended Results','Artefact Name',	'Artefact Description'])
+    
+    st.markdown(get_download_link(final_result), unsafe_allow_html=True)
     
     
 def results3(df):
@@ -221,17 +234,18 @@ def results3(df):
         response = chat_llm(messages)
         response_as_dict = output_parser.parse(response.content)
         data = response_as_dict
-        dict_to_csv(data, 'data23.csv', append=True)
-    data23 = pd.read_csv('data23.csv', names=['Intended Results'])
-    result = pd.concat([df, data23], axis=1)
-    output= pd.concat([df2, data23], axis=1)
-    result.to_csv('final23.csv')
-    data23.to_csv('data23.csv')
-    
+        dict_to_csv(data, 'data13.csv', append=True)
+    data13 = pd.read_csv('data13.csv', names=['Intended Results'])
+    result = pd.concat([df, data13], axis=1)
+    output= pd.concat([df2, data13], axis=1)
+    result.to_csv('final13.csv')
+    data13.to_csv('data13.csv')
+    final_result=pd.read_csv('results.csv')
+    results = pd.concat([final_result, data13], axis=1)
+    results.to_csv('results.csv')
     st.subheader("Intended Result")
     st.dataframe(output)
-    st.markdown(get_download_link(data23), unsafe_allow_html=True)
-    
+    st.markdown(get_download_link(results), unsafe_allow_html=True)
     
 
 
@@ -256,16 +270,16 @@ def main():
             result(df)
             
         if st.button("Generate Description"):
-            results2(pd.read_csv('data21.csv'))
+            results2(pd.read_csv('results.csv'))
             
         if st.button("Generate Intended Results"):
-            results3(pd.read_csv('data22.csv'))
+            results3(pd.read_csv('results.csv'))
             
         if st.button("Generate Artefact"):
-            results4(pd.read_csv('data22.csv'))
+            results4(pd.read_csv('results.csv'))
             
         if st.button("Generate Artefact Description"):
-            results5(pd.read_csv('data24.csv'))
+            results5(pd.read_csv('results.csv'))
             
         
 
